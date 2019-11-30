@@ -17,8 +17,8 @@ async def root():
 
 class DetectedObject(BaseModel):
     clas: str = dataclasses.field(default=None)
+    confidence: float = dataclasses.field(default=0.0)
     translations: Mapping = dataclasses.field(default_factory=dict)
-    confidence: float = dataclasses.field(default_factory=0.0)
 
 
 class DetectionResponse(BaseModel):
