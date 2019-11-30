@@ -24,7 +24,7 @@ class Translator:
 
 
 def attach_translation_to_obj(
-    translator: Translator, output_lang: str, obj: DetectedObject
+    obj: DetectedObject, translator: Translator, output_lang: str
 ):
     obj.translations.update({output_lang: translator.translate(obj.clas, output_lang)})
     return obj

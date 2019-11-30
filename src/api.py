@@ -1,4 +1,3 @@
-import dataclasses
 import functools
 from typing import Sequence, Iterable, Mapping
 
@@ -16,9 +15,15 @@ async def root():
 
 
 class DetectedObject(BaseModel):
-    clas: str = dataclasses.field(default=None)
-    confidence: float = dataclasses.field(default=0.0)
-    translations: Mapping = dataclasses.field(default_factory=dict)
+    clas: str
+    confidence: float
+    translations: Mapping
+
+    @classmethod
+    def from_model(cls, obj: domain.DetectedObject):
+        return cls(
+            clas=obj.clas, confidence=obj.confidence, translations=obj.translations
+        )
 
 
 class DetectionResponse(BaseModel):
@@ -33,12 +38,13 @@ translator = domain.Translator()
 async def detect(output: str):
     # get image + output languages from input
     image = None
+    output_lang = output
 
-    objects = detector.detect(image)
-    attach_translation = functools.partial(
-        domain.attach_translation_to_obj, translator=translator, output=output
-    )
-    for obj in objects:
-        attach_translation(obj)
+    objects = []
+    for obj in detector.detect(image):
+        domain.attach_translation_to_obj(
+            obj, translator=translator, output_lang=output_lang
+        )
+        objects.append(DetectedObject.from_model(obj))
 
     return {"objects": objects}
