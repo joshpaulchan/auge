@@ -1,4 +1,3 @@
-import functools
 from typing import Sequence, Iterable, Mapping
 
 from fastapi import FastAPI, File
