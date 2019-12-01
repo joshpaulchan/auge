@@ -12,7 +12,9 @@ class DetectedObject:
 
 
 class ObjectDetector:
-    def detect(self, image) -> Iterable[DetectedObject]:
+    def detect(self, image: bytes) -> Iterable[DetectedObject]:
+        if not image:
+            return []
         return []
 
 
