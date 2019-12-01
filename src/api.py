@@ -1,7 +1,7 @@
 import functools
 from typing import Sequence, Iterable, Mapping
 
-from fastapi import FastAPI
+from fastapi import FastAPI, File
 from pydantic import BaseModel
 
 from . import domain
@@ -35,16 +35,10 @@ translator = domain.Translator()
 
 
 @app.get("/detect", response_model=DetectionResponse)
-async def detect(output: str):
-    # get image + output languages from input
-    image = None
-    output_lang = output
-
+async def detect(output: str, image: bytes = File(None)):
     objects = []
     for obj in detector.detect(image):
-        domain.attach_translation_to_obj(
-            obj, translator=translator, output_lang=output_lang
-        )
+        domain.attach_translation_to_obj(obj, translator=translator, output_lang=output)
         objects.append(DetectedObject.from_model(obj))
 
     return {"objects": objects}
