@@ -1,3 +1,4 @@
+import pathlib
 from typing import Sequence, Iterable, Mapping
 
 from fastapi import FastAPI, File
@@ -29,7 +30,7 @@ class DetectionResponse(BaseModel):
     objects: Sequence[DetectedObject]
 
 
-detector = domain.ObjectDetector()
+detector = domain.ObjectDetector(pathlib.Path("./ml/imagenet-s1"))
 translator = domain.Translator()
 
 
