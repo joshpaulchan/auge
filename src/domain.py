@@ -2,7 +2,7 @@ import dataclasses
 import functools
 import pathlib
 
-from fastai import basic_train
+from fastai import vision
 
 from typing import Sequence, Iterable, Mapping
 
@@ -28,7 +28,7 @@ class ObjectDetector:
         return []
 
     def _init_model(self, path_to_model: pathlib.Path):
-        return basic_train.load_learner(path_to_model.parent, path_to_model.name)
+        return vision.load_learner(path_to_model.parent, path_to_model.name)
 
 
 class Translator:
