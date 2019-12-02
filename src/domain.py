@@ -1,5 +1,8 @@
 import dataclasses
 import functools
+import pathlib
+
+from fastai import basic_train
 
 from typing import Sequence, Iterable, Mapping
 
@@ -10,12 +13,22 @@ class DetectedObject:
     confidence: float = dataclasses.field(default=0.0)
     translations: Mapping = dataclasses.field(default_factory=dict)
 
+    @classmethod
+    def from_prediction(cls, clas, confidence):
+        return cls(clas, confidence)
+
 
 class ObjectDetector:
+    def __init__(self, path_to_model: pathlib.Path):
+        self.model = self._init_model(path_to_model)
+
     def detect(self, image: bytes) -> Iterable[DetectedObject]:
         if not image:
             return []
         return []
+
+    def _init_model(self, path_to_model: pathlib.Path):
+        return basic_train.load_learner(path_to_model.parent, path_to_model.name)
 
 
 class Translator:
