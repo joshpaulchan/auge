@@ -1,5 +1,6 @@
 import pathlib
 from typing import Sequence, Iterable, Mapping
+from io import BytesIO
 
 from fastapi import FastAPI, File
 from pydantic import BaseModel
@@ -37,7 +38,7 @@ translator = domain.Translator()
 @app.post("/detect", response_model=DetectionResponse)
 async def detect(output: str, image: bytes = File(None)):
     objects = []
-    for obj in detector.detect(image):
+    for obj in detector.detect(BytesIO(image)):
         domain.attach_translation_to_obj(obj, translator=translator, output_lang=output)
         objects.append(DetectedObject.from_model(obj))
 
