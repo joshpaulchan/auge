@@ -34,7 +34,7 @@ detector = domain.ObjectDetector(pathlib.Path("./ml/imagenet-s1"))
 translator = domain.Translator()
 
 
-@app.get("/detect", response_model=DetectionResponse)
+@app.post("/detect", response_model=DetectionResponse)
 async def detect(output: str, image: bytes = File(None)):
     objects = []
     for obj in detector.detect(image):
