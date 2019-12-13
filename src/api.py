@@ -9,7 +9,7 @@ from . import domain
 
 app = FastAPI()
 
-
+# TODO: install fastai
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
@@ -31,7 +31,7 @@ class DetectionResponse(BaseModel):
     objects: Sequence[DetectedObject]
 
 
-detector = domain.ObjectDetector(pathlib.Path("./ml/imagenet-s1"))
+detector = domain.ObjectDetector(pathlib.Path("./ml/imagenet-34.pkl"))
 translator = domain.Translator()
 
 
