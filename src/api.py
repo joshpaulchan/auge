@@ -9,7 +9,6 @@ from . import domain
 
 app = FastAPI()
 
-# TODO: install fastai
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
