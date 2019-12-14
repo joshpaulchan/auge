@@ -10,6 +10,8 @@ black = "*"
 [packages]
 fastapi = "*"
 uvicorn = "*"
+python-multipart = "*"
+fastai = "*"
 
 [requires]
 python_version = "3.7"

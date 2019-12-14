@@ -17,3 +17,9 @@ Running via docker:
 ./docker_build_tag.sh <service> latest # build
 docker run --rm -e PORT=8000 -it -p 8000:8000 <service> # run
 ```
+
+```
+curl --request POST \
+  --url 'http://localhost:8000/detect?output=german' \
+  -F "image=@/Users/joshpaulchan/Downloads/run.jpg"
+```
