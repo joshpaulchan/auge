@@ -20,4 +20,4 @@ function escape_tag() {
 ESCAPED_TAG=$(escape_tag $TAG)
 echo "Tagging '$PROJECT_ID' with: $ESCAPED_TAG."
 docker build --rm -t $PROJECT_ID:$ESCAPED_TAG .
-docker push $PROJECT_ID:$ESCAPED_TAG
+# docker push $PROJECT_ID:$ESCAPED_TAG
