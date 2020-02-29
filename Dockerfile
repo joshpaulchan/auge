@@ -1,6 +1,13 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
+FROM python:3.7
 
-# default is app.main
-ENV MODULE_NAME="src.api"
+ENV PORT 8000
 
-COPY . /app
+WORKDIR /opt/auge
+
+COPY ./Pipfile* .
+
+RUN pip install pipenv
+RUN pipenv install --ignore-pipfile --deploy
+
+EXPOSE $PORT
+CMD ["uvicorn", "src.api:app"]
