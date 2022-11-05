@@ -23,6 +23,11 @@ $ curl --request POST \
   -F "image=@/Users/joshpaulchan/Downloads/run.jpg"
 ```
 
+### Adding new Models
+
+Drop models (`*.pkl`) into the [`./ml` ](./ml) folder. NOTE: the models are pickled, and so you need to make sure you're training them with the same dependencies you're deploying them to (check pinned versions here) otherwise they'll fail to deserialize properly.
+
+
 ## Development
 
 ### Running in Reload Mode
