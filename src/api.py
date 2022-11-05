@@ -2,7 +2,9 @@ import pathlib
 from typing import Sequence, Iterable, Mapping
 from io import BytesIO
 
-from fastapi import FastAPI, File
+import tempfile
+
+from fastapi import FastAPI, UploadFile
 from pydantic import BaseModel
 
 from . import domain
@@ -30,15 +32,21 @@ class DetectionResponse(BaseModel):
     objects: Sequence[DetectedObject]
 
 
-detector = domain.ObjectDetector(pathlib.Path("./ml/imagenet-34.pkl"))
+detector = domain.PytorchObjectDetector(pathlib.Path("./ml/imagenet-34.pkl"))
 translator = domain.Translator()
 
 
 @app.post("/detect", response_model=DetectionResponse)
-async def detect(output: str, image: bytes = File(None)):
+async def detect(output: str, image: UploadFile):
     objects = []
-    for obj in detector.detect(BytesIO(image)):
-        domain.attach_translation_to_obj(obj, translator=translator, output_lang=output)
-        objects.append(DetectedObject.from_model(obj))
+
+    with tempfile.NamedTemporaryFile(delete=False) as temp_image:
+        temp_image.write(await image.read())
+
+        objects = detector.detect(temp_image.name)
+        
+        for obj in objects:
+            domain.attach_translation_to_obj(obj, translator=translator, output_lang=output)
+            objects.append(DetectedObject.from_model(obj))
 
     return {"objects": objects}
