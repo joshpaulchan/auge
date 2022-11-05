@@ -6,20 +6,22 @@ A service for recognizing objects in images and requesting translations.
 
 Running locally:
 
-```
-uvicorn src.api:app # start
-uvicorn src.api:app --reload # start with reload
+```shell
+$ uvicorn src.api:app # start
+$ uvicorn src.api:app --reload # start with reload
 ```
 
 Running via docker:
 
-```
-./docker_build_tag.sh <service> latest # build
-docker run --rm -e PORT=8000 -it -p 8000:8000 <service> # run
+```shell
+$ ./docker_build_tag.sh <service> latest # build
+$ docker run --rm -it -p 8000:8000 <service> # run
 ```
 
-```
-curl --request POST \
+Testing:
+
+```shell
+$ curl --request POST \
   --url 'http://localhost:8000/detect?output=german' \
   -F "image=@/Users/joshpaulchan/Downloads/run.jpg"
 ```
