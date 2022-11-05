@@ -1,20 +1,16 @@
 [[source]]
-name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
+name = "pypi"
+
+[packages]
+torch = "~=1.13"
+torchvision = "*"
+torchaudio = "*"
 
 [dev-packages]
 pytest = "*"
 black = "*"
 
-[packages]
-fastapi = "*"
-uvicorn = "*"
-python-multipart = "*"
-fastai = "*"
-
 [requires]
-python_version = "3.7"
-
-[pipenv]
-allow_prereleases = true
+python_version = "3.10"
