@@ -59,3 +59,4 @@ AttributeError: Custom classes or functions exported with your `Learner` not ava
 ```
 
 - [ ]  parametrize so we can easily support multiple models and formats (domain agnostic and specific)
+- [ ]  rebuild dockerfile to use pipenv instead of requirements
