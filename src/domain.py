@@ -3,7 +3,8 @@ import functools
 import pathlib
 
 from fastai import vision
-import torchvision
+from torchvision.io import read_image
+from torchvision.models import resnet152, ResNet152_Weights
 
 from typing import Sequence, Iterable, Mapping
 import operator
@@ -56,36 +57,31 @@ class PytorchObjectDetector:
         if not image_path:
             return []
 
-        from torchvision.io import read_image
-        from torchvision.models import resnet50, ResNet50_Weights
-
         img = read_image(image_path)
 
-        # Step 1: Initialize model with the best available weights
-        weights = ResNet50_Weights.DEFAULT
-        model = resnet50(weights=weights)
-        model.eval()
-
         # Step 2: Initialize the inference transforms
-        preprocess = weights.transforms()
+        preprocess = self.weights.transforms()
 
         # Step 3: Apply inference preprocessing transforms
         batch = preprocess(img).unsqueeze(0)
 
         # Step 4: Use the model and print the predicted category
-        prediction = model(batch).squeeze(0).softmax(0)
+        prediction = self.model(batch).squeeze(0).softmax(0)
         class_id = prediction.argmax().item()
         score = prediction[class_id].item()
-        category_name = weights.meta["categories"][class_id]
-        print(f"{category_name}: {100 * score:.1f}%")
+        category_name = self.weights.meta["categories"][class_id]
 
         return [
             DetectedObject.from_prediction(category_name, score)
         ]
     
     def _init_model(self, path_to_model: pathlib.Path):
-        # return vision.load_learner(path_to_model.parent, path_to_model.name)
-        return [None, None]
+        # TODO: be able to use the pretrained model here
+        # Step 1: Initialize model with the best available weights
+        weights = ResNet152_Weights.DEFAULT
+        model = resnet152(weights=weights)
+        model.eval()
+        return model, weights
 
 
 class Translator:

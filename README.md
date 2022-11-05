@@ -63,5 +63,7 @@ AttributeError: Custom classes or functions exported with your `Learner` not ava
 	Can't get attribute 'FlattenedLoss' on <module 'fastai.layers' from '~/workspace/auge/.venv/lib/python3.10/site-packages/fastai/layers.py'>
 ```
 
+Update: Ok, so I've managed to get it roughly working using Pytorch directly and using the pre-built models. It should be [somewhat possible](https://docs.fast.ai/examples/migrating_pytorch_verbose.html#exporting-and-predicting) to load up my old model and get that working too, but might be better to isolate fastai to the training loop and keep it to pytorch for deployment.
+
 - [ ]  parametrize so we can easily support multiple models and formats (domain agnostic and specific)
 - [ ]  rebuild dockerfile to use pipenv instead of requirements
